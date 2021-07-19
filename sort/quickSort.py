@@ -13,9 +13,9 @@ def quickSort(A, startIndex, endIndex):
     rightIndex =endIndex
     pivot = A[startIndex + (endIndex - startIndex) // 2]
     while (leftIndex <= rightIndex):
-        while(leftIndex <= rightIndex and A[leftIndex] > pivot):
+        while(leftIndex <= rightIndex and A[leftIndex] < pivot):
             leftIndex += 1
-        while(leftIndex <= rightIndex and A[rightIndex] < pivot):
+        while(leftIndex <= rightIndex and A[rightIndex] > pivot):
             rightIndex -= 1
         if (leftIndex <= rightIndex):
             temp = A[leftIndex]
