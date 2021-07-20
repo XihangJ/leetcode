@@ -13,7 +13,7 @@ Notice that you should not modify the linked list.
 #         self.next = None
 
 class Solution:
-    #method1. using slo and fast pointers find common node as tail, delete tail -> tail.next
+    #method1. using slow and fast pointers find common node as tail, delete tail -> tail.next
     #calculate len1 and len2, find the first common node. set tail -> tail.next 
     #O(n), S(1)
     def detectCycle(self, head: ListNode) -> ListNode:
