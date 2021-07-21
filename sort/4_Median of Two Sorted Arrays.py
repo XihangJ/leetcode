@@ -6,7 +6,45 @@ The overall run time complexity should be O(log (m+n)).
 
 class Solution:
     
-    #method 1. Max heap and min heap -> median O(log(m + n)), S(m + n)
+    #method 2. single for loop. O(min(m, n)), S(1)
+    def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
+        if not nums1 and not nums2: return
+        
+        if len(nums1) > len(nums2):
+            nums1, nums2 = nums2, nums1
+        m = len(nums1)
+        n = len(nums2)
+        if m == 0:
+            if n % 2 == 0:
+                return (nums2[(n - 1) // 2] + nums2[n // 2]) / 2
+            else:
+                return float(nums2[n // 2])
+        
+        leftSize = (m + n) // 2
+        for i in range(m + 1):
+            j = m - i
+            
+            if i == 0:
+                leftMax = nums2[leftSize - 1]
+            elif leftSize == m and i == m:
+                leftMax = nums1[i - 1]
+            else:
+                leftMax = max(nums1[i - 1], nums2[leftSize - i - 1])
+            
+            if j == 0:
+                rightMin = nums2[leftSize - i]
+            elif n == m and j == m:
+                rightMin = nums1[0]
+            else:
+                rightMin = min(nums1[i], nums2[leftSize - i])
+            
+            if leftMax <= rightMin:
+                if (m + n) % 2 == 0: return (leftMax + rightMin) / 2
+                else: return float(rightMin) 
+    
+    
+    '''
+    #method 1. binary search -> median O(log(m + n)), S(m + n)
     def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
         if not nums1 and not nums2:
             return None
@@ -67,3 +105,4 @@ class Solution:
                 right = i - 1
             elif nums2[j - 1] > nums1[i]:
                 left = i + 1
+    '''
