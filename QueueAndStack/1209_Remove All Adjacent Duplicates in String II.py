@@ -8,6 +8,31 @@ Return the final string after all such duplicate removals have been made. It is 
 
 
 class Solution:
+    
+    #method 2. O(n), S(n)
+    def removeDuplicates(self, s: str, k: int) -> str:
+        stack = []
+        count = 0
+        for digit in s:
+            if not stack:
+                count = 1
+                stack.append((digit, count))
+            else:
+                if digit == stack[-1][0]:
+                    count += 1
+                else:
+                    count = 1
+                
+                if count != k:
+                    stack.append((digit, count))
+                else:
+                    for _ in range(k - 1):
+                        stack.pop()
+                    if not stack: count = 0
+                    else: count = stack[-1][1]
+        return ''.join(digit[0] for digit in stack)
+    
+    '''
     #method 1. Stack. O(nk), S(n)
     def removeDuplicates(self, s: str, k: int) -> str:
         stack = []
@@ -39,3 +64,4 @@ class Solution:
                             else:
                                 break
         return ''.join(digit for digit in stack)
+        '''
