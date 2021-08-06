@@ -29,7 +29,7 @@ class Solution:
             i -= 1
         return res 
     '''
-    #method 2. hashmap + heap. O(klogd), S(d)
+    #method 2. hashmap + heap. O(dlogk), S(d)
     import heapq
     def topKFrequent(self, nums: List[int], k: int) -> List[int]:
         d = {}    
