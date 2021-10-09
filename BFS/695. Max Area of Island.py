@@ -6,6 +6,39 @@ The area of an island is the number of cells with a value 1 in the island.
 Return the maximum area of an island in grid. If there is no island, return 0.
 '''
 class Solution:
+    # BFS. O(mn), S(mn)
+    def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
+        m, n = len(grid), len(grid[0])
+        directions = [[1, 0], [-1, 0], [0, 1], [0, -1]]
+        visited = set()
+        queue = collections.deque()
+        area_max = 0
+        #BFS search with flooding fill
+        for row in range(m):
+            for col in range(n):
+                if grid[row][col] == 1:
+                    area = 0
+                    queue.append((row, col))
+                    visited.add((row, col))
+                    grid[row][col] = 0
+                    area += 1
+                    while queue:
+                        row_curr, col_curr = queue.popleft()
+                        for direction in directions:
+                            dr, dc = direction
+                            r = row_curr + dr
+                            c = col_curr + dc
+                            if r >= 0 and r < m and c >= 0 and c < n and (r, c) not in visited and grid[r][c] == 1:
+                                queue.append((r, c))
+                                visited.add((r, c))
+                                grid[r][c] = 0
+                                area += 1
+                    area_max = max(area, area_max)
+        return area_max
+
+
+'''
+class Solution:
     def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
         area_max = 0
         m, n = len(grid), len(grid[0])
@@ -30,3 +63,4 @@ class Solution:
                                 grid[i][j] = 0
                     area_max = max(area_max, area)
         return area_max
+'''
