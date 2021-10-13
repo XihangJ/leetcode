@@ -11,7 +11,7 @@ Output: [[-1,-1,2],[-1,0,1]]
 
 class Solution:
     
-    #method 1. sort + 2 pointers. O(n ** 2), S(1) --> depends on what sorting algo
+    #method 1. sort + 2 pointers. O(n ** 2), S(logn) --> depends on what sorting algo
     def threeSum(self, nums: List[int]) -> List[List[int]]:
         if len(nums) < 3: return []
         nums.sort()
