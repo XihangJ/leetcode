@@ -9,7 +9,40 @@ Explanation: The subarray [4,3] has the minimal length under the problem constra
 '''
 
 class Solution:
-    # method 1. O(n), S(1)
+    
+    
+    #method 2. Binary Search. O(nlogn), S(n)
+    def minSubArrayLen(self, target: int, nums: List[int]) -> int:
+        prefix = []
+        curr = 0
+        for num in nums:
+            curr += num
+            prefix.append(curr)
+        min_len = inf
+        for i in range(len(nums)):
+            end = self.searchRight(prefix, nums, i, len(nums) - 1, target)
+            if end == -1: break
+            min_len = min(min_len, end - i + 1)
+        if min_len != inf: return min_len
+        return 0
+    
+    def searchRight(self, prefix, nums, left, right, target):
+        start = left
+        end = right
+        while start + 1 < end:
+            mid = start + (end - start) // 2
+            if prefix[mid] - prefix[left] + nums[left] > target:
+                end = mid
+            elif prefix[mid] - prefix[left] + nums[left] < target:
+                start = mid
+            else:
+                return mid
+        if prefix[start] - prefix[left] + nums[left] >= target: return start
+        if prefix[end] - prefix[left] + nums[left] >= target: return end
+        return -1
+     
+    '''
+    # method 1. 2 pointers. O(n), S(1)
     def minSubArrayLen(self, target: int, nums: List[int]) -> int:
         left, right = 0, 0
         min_len = inf
@@ -29,3 +62,4 @@ class Solution:
                 if right < len(nums): curr += nums[right]
         if min_len == inf: return 0
         return min_len
+    '''
