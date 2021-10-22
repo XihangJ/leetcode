@@ -5,6 +5,50 @@ A region is captured by flipping all 'O's into 'X's in that surrounded region.
 '''
 
 class Solution:
+    
+    # BFS. O(n ** 2), S(n)
+    def solve(self, board: List[List[str]]) -> None:
+        """
+        Do not return anything, modify board in-place instead.
+        """
+        directions = [[0, 1], [0, -1], [1, 0], [-1, 0]]
+        def bfs(row, col):
+            queue = collections.deque([(row, col)])
+            board[row][col] = "s"
+            while queue:
+                row, col = queue.popleft()
+                for direction in directions:
+                    dr, dc = direction
+                    r = row + dr
+                    c = col + dc
+                    if r >= 0 and r < len(board) and c >= 0 and c < len(board[0]) and board[r][c] == "O":
+                        board[r][c] = "s"
+                        queue.append((r, c))
+        
+        # 1. find safe place (boarder elements)
+        # first and last row:
+        for col in range(len(board[0])):
+            if board[0][col] == "O":
+                bfs(0, col)
+            if board[-1][col] == "O":
+                bfs(len(board) - 1, col)
+        # first and last col
+        for row in range(len(board)):
+            if board[row][0] == "O":
+                bfs(row, 0)
+            if board[row][-1] == "O":
+                bfs(row, len(board[0]) - 1)
+        # 2. flip remaining "O" to "X". And flip "s" back to "O"
+        for row in range(len(board)):
+            for col in range(len(board[0])):
+                if board[row][col] == "s": board[row][col] = "O"
+                elif board[row][col] == "O": board[row][col] = "X"
+        return
+    
+    
+    
+    
+    '''
     #method 1. BFS.
     def solve(self, board: List[List[str]]) -> None:
         """
@@ -44,3 +88,4 @@ class Solution:
         if x < 0 or x >= len(board) or y < 0 or y >= len(board[0]):
             return None
         return (x, y)
+    '''
