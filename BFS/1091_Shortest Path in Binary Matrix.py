@@ -9,40 +9,30 @@ The length of a clear path is the number of visited cells of this path.
 '''
 
 class Solution:
-    #method 1. BFS with a visited set. O(N), S(N)
+    # BFS. O(n ** 2), S(n)
     def shortestPathBinaryMatrix(self, grid: List[List[int]]) -> int:
-        n = len(grid)
-        if grid[0][0] == 1: return -1
-        elif n == 1: return 1
-        queue = collections.deque([(0, 0)])
-        visited = set([(0, 0)])
-        directions = ['>', '<', '^', 'v', '>v', '>^', '<v', '<^']
-        count = 1
-        while queue:
-            count += 1
-            for _ in range(len(queue)):
-                curr = queue.popleft()
-                for direction in directions:
-                    end = self.move(curr, n, direction)
-                    if end == (n - 1, n - 1) and grid[end[0]][end[1]] == 0: return count
-                    elif end not in visited and grid[end[0]][end[1]] == 0:
-                        visited.add(end)
-                        queue.append(end)
-        return -1
-            
-            
-    def move(self, curr, n, direction):
-        dx, dy = 0, 0
-        if '>' in direction: dy = 1
-        if '<' in direction: dy = -1
-        if '^' in direction: dx = -1
-        if 'v' in direction: dx = 1
+        directions = [[0, 1], [0, -1], [1, 0], [-1, 0], 
+                      [1, 1], [1, -1], [-1, 1], [-1, -1]]
+        if grid[0][0] != 0 or grid[-1][-1] != 0: return -1
+        if grid == [[0]]: return 1
         
-        x, y = curr
-        x += dx
-        y += dy
-        
-        if x < 0 or x >= n or y < 0 or y >= n:
-            return curr
-        else:
-            return (x, y)
+        def bfs(row,col):
+            count = 1
+            queue = collections.deque([(row, col)])
+            grid[row][col] = -1
+            while queue:
+                count += 1
+                size = len(queue)
+                for _ in range(size):
+                    row, col = queue.popleft()
+                    for direction in directions:
+                        dr, dc = direction
+                        r = row + dr
+                        c = col + dc
+                        if r == len(grid) - 1 and c == len(grid[0]) - 1: return count
+                        if r >= 0  and r < len(grid) and c >= 0 and c < len(grid[0]) and grid[r][c] == 0:
+                            queue.append((r, c))
+                            grid[r][c] = -1
+            if grid[len(grid) - 1][len(grid[0]) - 1] == -1: return count
+            else: return -1
+        return bfs(0, 0)
