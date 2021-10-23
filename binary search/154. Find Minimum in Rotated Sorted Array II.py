@@ -9,7 +9,7 @@ Given the sorted rotated array nums that may contain duplicates, return the mini
 
 You must decrease the overall operation steps as much as possible.
 '''
-
+# O(logn) but can reduced to O(n) if most of the element is duplicates.
 class Solution:
     def findMin(self, nums: List[int]) -> int:
         #1. Find the minimum position of nums
