@@ -10,7 +10,20 @@ Output: 4
 Explanation: Rob house 1 (money = 1) and then rob house 3 (money = 3).
 Total amount you can rob = 1 + 3 = 4.
 '''
+class Solution:
+    #DP. O(N), S(1)
+    def rob(self, nums: List[int]) -> int:
+        if len(nums) == 1: return nums[0]
+        if len(nums) == 2: return max(nums)
+        
+        prev, curr = 0, 0
+        for num in nums:
+            prev, curr = curr, max(curr, prev + num)
+        return curr
 
+
+
+'''
 class Solution:
     #method: DP. O(n), S(n)
     def rob(self, nums: List[int]) -> int:
@@ -21,3 +34,4 @@ class Solution:
         for i in range(3, len(nums)):
             money.append(nums[i] + max(money[i - 3], money[i - 2]))
         return max(money[-1], money[-2])
+'''
